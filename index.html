@@ -1,1 +1,195 @@
-<p>Something big is happening here...</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Something big is happening here...</title>
+
+<style>
+  :root {
+    --text-main: #ffffff;
+    --bg-main: #000000;
+    --warm: 255, 221, 150;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-main);
+    font-family: system-ui, sans-serif;
+    color: var(--text-main);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ----- Center Text ----- */
+  .content {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 3;
+    width: 100%;
+  }
+
+  .headline {
+    font-size: clamp(1.38rem, 2.3vw + 0.25rem, 2.3rem);
+    font-weight: 550;
+    letter-spacing: 0.04em;
+    position: relative;
+    animation: textGlitch 6.8s infinite; /* extended from 4.8s */
+  }
+
+  /* ====== VHS + Slow Failing Electricity Glitch + Pause ====== */
+  @keyframes textGlitch {
+    /* NORMAL STATE (start + end) */
+    0%, 6%, 12%, 70%, 100% {
+      opacity: 1;
+      filter: none;
+      transform: none;
+      text-shadow: none;
+    }
+
+    /* flicker stages faster part */
+    7%, 22%, 46%, 58% {
+      opacity: 0.75;
+      filter: blur(0.4px) contrast(1.15);
+    }
+
+    13%, 29%, 53%, 62% {
+      opacity: 0.55;
+      transform: translateX(-2px);
+      text-shadow:
+        2px 0 rgba(255,50,50,0.45),
+       -2px 0 rgba(80,200,255,0.45);
+    }
+
+    18%, 37%, 57%, 66% {
+      opacity: 0.25;
+      filter: blur(1.4px);
+      transform: translateX(2px);
+    }
+
+    24%, 41%, 61% {
+      opacity: 0.9;
+      filter: blur(0.2px);
+      transform: translateX(-1px);
+    }
+
+    /* last 30% is quiet no-animation time (pause) */
+    70%, 100% {
+      opacity: 1;
+      transform: none;
+      text-shadow: none;
+      filter: none;
+    }
+  }
+
+  /* ----- Lamp Drop Animation ----- */
+  .swing-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-origin: top center;
+    transform: translateX(-50%) rotate(-35deg);
+    animation: swingDrop 3.8s cubic-bezier(.25,.46,.45,1) forwards;
+    z-index: 7;
+  }
+
+  @keyframes swingDrop {
+    0%   { transform: translateX(-50%) rotate(-35deg); }
+    22%  { transform: translateX(-50%) rotate(33deg); }
+    42%  { transform: translateX(-50%) rotate(-27deg); }
+    59%  { transform: translateX(-50%) rotate(18deg); }
+    72%  { transform: translateX(-50%) rotate(-11deg); }
+    84%  { transform: translateX(-50%) rotate(6deg); }
+    92%  { transform: translateX(-50%) rotate(-3deg); }
+    100% { transform: translateX(-50%) rotate(0deg); }
+  }
+
+  svg { overflow: visible; }
+
+  #string-path {
+    stroke: #cfcfcf;
+    stroke-width: 2;
+    fill: none;
+    animation: bendString 3.8s cubic-bezier(.25,.46,.45,1) forwards;
+  }
+
+  @keyframes bendString {
+    0%   { d: path("M0,0 Q0,100 0,200"); }
+    22%  { d: path("M0,0 Q32,100 0,200"); }
+    42%  { d: path("M0,0 Q-26,100 0,200"); }
+    59%  { d: path("M0,0 Q21,100 0,200"); }
+    72%  { d: path("M0,0 Q-14,100 0,200"); }
+    84%  { d: path("M0,0 Q9,100 0,200"); }
+    92%  { d: path("M0,0 Q-5,100 0,200"); }
+    100% { d: path("M0,0 Q0,100 0,200"); }
+  }
+
+  /* ----- Small Glow Around Bulb ----- */
+  .bulb-glow {
+    position: absolute;
+    top: 86px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    height: 240px;
+    pointer-events: none;
+    opacity: 0;
+    animation: bulbFlicker 2.7s steps(17, end) 4.1s forwards;
+    z-index: 4;
+  }
+
+  .bulb-glow::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 270px;
+    height: 270px;
+    background: radial-gradient(circle,
+      rgba(var(--warm),0.45) 0%,
+      rgba(var(--warm),0.18) 40%,
+      rgba(var(--warm),0.05) 70%,
+      transparent           100%
+    );
+    filter: blur(9px);
+    border-radius: 50%;
+  }
+
+  @keyframes bulbFlicker {
+    0%, 10%   { opacity: 0; }
+    16%, 30%  { opacity: 1; }
+    45%       { opacity: 0.28; }
+    62%       { opacity: 0.95; }
+    76%       { opacity: 0.4; }
+    100%      { opacity: 1; }
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- Glow -->
+  <div class="bulb-glow"></div>
+
+  <!-- Lamp -->
+  <div class="swing-container">
+    <svg width="1" height="260">
+      <path id="string-path" d="M0,0 Q0,100 0,200"></path>
+      <rect x="-5" y="200" width="10" height="7" fill="#2b2b2b" rx="2"></rect>
+      <circle cx="0" cy="228" r="14" fill="rgb(var(--warm))" stroke="#dcdcdc" stroke-width="2" />
+    </svg>
+  </div>
+
+  <!-- Text -->
+  <div class="content">
+    <div class="headline">Something big is happening here...</div>
+  </div>
+
+</body>
+</html>
